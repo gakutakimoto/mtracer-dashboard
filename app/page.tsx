@@ -194,7 +194,7 @@ const filteredData = useMemo(() => {
       {/* 各特性の中央値 */}
       <div style={{ marginBottom: "20px" }}>
         <h3>各特性の中央値</h3>
-        <table border={1} style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", border: "1px solid black" }}>
           <thead>
             <tr>
               <th>Impact Face Angle (°)</th>
