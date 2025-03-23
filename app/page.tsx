@@ -34,22 +34,22 @@ const useSwingData = () => {
         const rawData = await res.json();
 
         // 取得データに不足している項目をランダム補完（サンプル用）
-        const enhancedData = rawData.map((item: Partial<SwingData>) => ({
-          ...item,
-          impactAttackAngle: item.impactAttackAngle ?? (Math.random() * 10 - 5),
-          swing_type:
-            item.swing_type ??
-            ["Inside-out Draw Hitter", "Straight Power Hitter", "Straight Athlete", "Outside-in Control", "Inside-out Fade", "Rotation Specialized"][
-              Math.floor(Math.random() * 6)
-            ],
-          club_type:
-            item.club_type ??
-            ["Driver", "Iron", "Wedge", "Putter"][
-              Math.floor(Math.random() * 4)
-            ],
-          success: Math.random() < 0.5 ? true : false, // success フィールドを追加
-          height_category: item.profileHeight >= 170 ? 0 : 1, // height_categoryを設定
-        }));
+const enhancedData = rawData.map((item: Partial<SwingData>) => ({
+  ...item,
+  impactAttackAngle: item.impactAttackAngle ?? (Math.random() * 10 - 5),
+  swing_type:
+    item.swing_type ??
+    ["Inside-out Draw Hitter", "Straight Power Hitter", "Straight Athlete", "Outside-in Control", "Inside-out Fade", "Rotation Specialized"][
+      Math.floor(Math.random() * 6)
+    ],
+  club_type:
+    item.club_type ??
+    ["Driver", "Iron", "Wedge", "Putter"][
+      Math.floor(Math.random() * 4)
+    ],
+  success: Math.random() < 0.5 ? true : false, // success フィールドを追加
+  height_category: (item.profileHeight ?? 0) >= 170 ? 0 : 1, // デフォルト値を追加
+}));
         setData(enhancedData);
 } catch (err: unknown) {
   const errorMessage = err instanceof Error ? err.message : '不明なエラーが発生しました';
