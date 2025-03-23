@@ -1,0 +1,101 @@
+/* NextUIに対応したダークテーマ設定 */
+:root {
+  --background-color: #121212;
+  --card-background: #1e1e1e;
+  --text-color: #ffffff;
+  --border-color: #444;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* コンテンツエリアのスタイル */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* NextUIの一部コンポーネントをダークテーマに合わせてオーバーライド */
+.nextui-c-iWjDFM {
+  --background-color: var(--card-background) !important;
+}
+
+/* テーブルがNextUIコンポーネントを使うようになるため、以下のスタイルは不要になります */
+/* これらのスタイルはNextUIコンポーネントが適用されない場合のフォールバックとして残しておきます */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+th, td {
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background: #3b5998;
+  color: white;
+  font-size: 14px;
+}
+
+tr:nth-child(odd) {
+  background: #2a2a2a;
+}
+
+tr:hover {
+  background: #3a3a3a;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* モバイル対応 */
+@media (max-width: 640px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+select {
+  background-color: #2c3e50; /* 中央値の背景色に合わせる */
+  color: white; /* 文字色を白に */
+  border: 1px solid #34495e; /* 枠線の色 */
+  border-radius: 2px; /* 枠線の角を丸くする */
+  padding: 10px;
+  font-size: 14px;
+  margin-right: 7px; /* メニュー間のスペースを設定 */
+}
+
+select:focus {
+  border-color: #1abc9c; /* フォーカス時の枠線の色 */
+  outline: none; /* フォーカス時のアウトラインを削除 */
+}
+
+/* プルダウンメニューのコンテナ */
+.select-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 7px; /* プルダウンメニュー間のスペース */
+  width: 100%; /* 幅を100%に設定 */
+}
+
+/* 各プルダウンメニューのスタイル */
+.select-container select {
+  width: 24%; /* プルダウンメニューを4つ並べて均等に配置 */
+  padding: 10px;
+}
+
+

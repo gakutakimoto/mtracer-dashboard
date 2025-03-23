@@ -1,0 +1,50 @@
+/* 背景をモダンなグレーブルー基調に */
+body {
+  background-color: #f4f6f8; /* Laravel っぽい明るいグレー */
+  color: #333;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* コンテンツエリア */
+.container {
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 100%;
+}
+
+/* テーブルデザイン */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+/* ヘッダー */
+th {
+  background: #3b5998; /* 深めのブルー */
+  color: white;
+}
+
+/* 奇数行の背景を少し変える */
+tr:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* ホバー時に強調 */
+tr:hover {
+  background: #dfe3ee;
+}
