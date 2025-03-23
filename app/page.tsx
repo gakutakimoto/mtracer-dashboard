@@ -241,12 +241,12 @@ const filteredData = useMemo(() => {
             <tr key={index}>
               <td>{row.club_type || "-"}</td>
               <td>{row.profileHeight} cm</td>
-              <td>{row.impactHeadSpeed.toFixed(2)} m/s</td>
-              <td>{row.impactGripSpeed.toFixed(2)} m/s</td>
-              <td>{row.estimateCarry.toFixed(2)} yard</td>
-              <td>{row.impactAttackAngle.toFixed(2)} °</td>
+              <td>{(row.impactHeadSpeed ?? 0).toFixed(2)} m/s</td>
+              <td>{(row.impactGripSpeed ?? 0).toFixed(2)} m/s</td>
+              <td>{(row.estimateCarry ?? 0).toFixed(2)} yard</td>
+              <td>{(row.impactAttackAngle ?? 0).toFixed(2)} °</td>
               <td>{row.swing_type || "-"}</td>
-              <td>{row.impactFaceAngle.toFixed(2)} °</td>
+              <td>{(row.impactFaceAngle ?? 0).toFixed(2)} °</td>
               <td>{row.impactHandFirst?.toFixed(2) || "-"}</td>
               <td>{row.impactAttackAngle?.toFixed(2) || "-"}</td>
               <td>{row.impactRelativeFaceAngle?.toFixed(2) || "-"}</td>
