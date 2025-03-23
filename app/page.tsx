@@ -12,10 +12,17 @@ interface SwingData {
   impactAttackAngle?: number;
   swing_type?: string;
   club_type?: string;
-  impactFaceAngle?: number;  // 追加：インパクト時のフェース角
-  impactClubPath?: number;   // 追加：インパクト時のクラブパス
-  success?: boolean; // 追加：成功スイングかどうか
-  height_category?: number; // 追加：身長カテゴリ (0: 170cm以上, 1: 170cm以下)
+  impactFaceAngle?: number;
+  impactClubPath?: number;
+  success?: boolean;
+  height_category?: number;
+  // 新しく追加するプロパティ
+  impactGripSpeed?: number;
+  impactHandFirst?: number;
+  impactRelativeFaceAngle?: number;
+  halfwaybackFaceAngleToVertical?: number;
+  downSwingShaftRotationMax?: number;
+  topFaceAngleToHorizontal?: number;
 }
 
 /* ===============================
