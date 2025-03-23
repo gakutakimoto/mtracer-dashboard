@@ -78,16 +78,15 @@ export default function Home() {
   const itemsPerPage = 15; // 1ページに表示するアイテム数
 
   // SWING TYPE, CLUB TYPE, SUCCESS, HEIGHT CATEGORY でフィルタリング
-  const filteredData = useMemo(() => {
-    return data.filter(item => {
-      const matchSwingType = selectedSwingType ? item.swing_type === selectedSwingType : true;
-      const matchClubType = selectedClubType ? item.club_type === selectedClubType : true;
-      const matchSuccess = selectedSuccess ? item.success.toString() === selectedSuccess : true; // success フィルタリング
-      const matchHeightCategory = selectedHeightCategory ? item.height_category.toString() === selectedHeightCategory : true; // height_category フィルタリング
-      return matchSwingType && matchClubType && matchSuccess && matchHeightCategory;
-    });
-  }, [data, selectedSwingType, selectedClubType, selectedSuccess, selectedHeightCategory]);
-
+const filteredData = useMemo(() => {
+  return data.filter(item => {
+    const matchSwingType = selectedSwingType ? item.swing_type === selectedSwingType : true;
+    const matchClubType = selectedClubType ? item.club_type === selectedClubType : true;
+    const matchSuccess = selectedSuccess ? (item.success ?? false).toString() === selectedSuccess : true; // デフォルト値を設定
+    const matchHeightCategory = selectedHeightCategory ? (item.height_category ?? 0).toString() === selectedHeightCategory : true; // こちらも同様
+    return matchSwingType && matchClubType && matchSuccess && matchHeightCategory;
+  });
+}, [data, selectedSwingType, selectedClubType, selectedSuccess, selectedHeightCategory]);
   // データのページネーション（1ページに15行）
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
