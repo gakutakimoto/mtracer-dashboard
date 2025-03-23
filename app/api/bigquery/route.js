@@ -2,26 +2,26 @@ import { BigQuery } from "@google-cloud/bigquery";
 
 export async function GET() {
   try {
-    // 環境変数から個別にクレデンシャル情報を取得
+    // 個別の環境変数から認証情報を作成
     const credentials = {
       type: "service_account",
       project_id: process.env.GOOGLE_PROJECT_ID,
-      private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
-      private_key: process.env.GOOGLE_PRIVATE_KEY,
-      client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      client_id: process.env.GOOGLE_CLIENT_ID,
-      auth_uri: "https://accounts.google.com/o/oauth2/auth",
-      token_uri: "https://oauth2.googleapis.com/token",
-      auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-      client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${encodeURIComponent(process.env.GOOGLE_CLIENT_EMAIL)}`,
-      universe_domain: "googleapis.com"
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      client_email: process.env.GOOGLE_CLIENT_EMAIL
     };
 
+    // 認証情報の検証
+    if (!credentials.client_email) {
+      throw new Error("client_email が設定されていません");
+    }
+    if (!credentials.private_key) {
+      throw new Error("private_key が設定されていません");
+    }
+
     const bigquery = new BigQuery({
-      projectId: process.env.GOOGLE_PROJECT_ID,
+      projectId: credentials.project_id,
       credentials
-    });
-    
+    });    
     const query = `
       SELECT
         profileHeight,
@@ -53,8 +53,17 @@ export async function GET() {
     return Response.json(rows);
   } catch (error) {
     console.error("BigQueryエラー:", error);
-    return new Response(JSON.stringify({ error: "データ取得に失敗しました", details: error.message }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ 
+        error: "データ取得に失敗しました", 
+        details: error.message,
+        env_check: {
+          has_project_id: !!process.env.GOOGLE_PROJECT_ID,
+          has_client_email: !!process.env.GOOGLE_CLIENT_EMAIL,
+          has_private_key: !!process.env.GOOGLE_PRIVATE_KEY
+        }
+      }),
+      { status: 500 }
+    );
   }
 }
