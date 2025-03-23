@@ -34,7 +34,7 @@ const useSwingData = () => {
         const rawData = await res.json();
 
         // 取得データに不足している項目をランダム補完（サンプル用）
-        const enhancedData = rawData.map((item: any) => ({
+        const enhancedData = rawData.map((item: Partial<SwingData>) => ({
           ...item,
           impactAttackAngle: item.impactAttackAngle ?? (Math.random() * 10 - 5),
           swing_type:
@@ -51,8 +51,9 @@ const useSwingData = () => {
           height_category: item.profileHeight >= 170 ? 0 : 1, // height_categoryを設定
         }));
         setData(enhancedData);
-      } catch (err: any) {
-        setError(err.message);
+} catch (err: unknown) {
+  const errorMessage = err instanceof Error ? err.message : '不明なエラーが発生しました';
+  setError(errorMessage);
       } finally {
         setLoading(false);
       }
