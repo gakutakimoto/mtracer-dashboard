@@ -2,11 +2,21 @@ import { BigQuery } from "@google-cloud/bigquery";
 
 export async function GET() {
   try {
-    const bigquery = new BigQuery({
-      projectId: "m-tracer-data-dashboard",
-      keyFilename: "service-account.json",
-    });
-
+    let bigqueryOptions = {
+      projectId: "m-tracer-data-dashboard"
+    };
+    
+    // 環境変数からクレデンシャルを取得
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+      const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+      bigqueryOptions.credentials = credentials;
+    } else {
+      // ローカル開発用のフォールバック
+      bigqueryOptions.keyFilename = "service-account.json";
+    }
+    
+    const bigquery = new BigQuery(bigqueryOptions);
+    
     const query = `
       SELECT
         profileHeight,
@@ -34,12 +44,11 @@ export async function GET() {
       FROM \`m-tracer-data-dashboard.m_tracer_swing_data.sample\`
       LIMIT 10000;
     `;
-
     const [rows] = await bigquery.query(query);
     return Response.json(rows);
   } catch (error) {
     console.error("BigQueryエラー:", error);
-    return new Response(JSON.stringify({ error: "データ取得に失敗しました" }), {
+    return new Response(JSON.stringify({ error: "データ取得に失敗しました", details: error.message }), {
       status: 500,
     });
   }
