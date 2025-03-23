@@ -41,26 +41,26 @@ const useSwingData = () => {
         const rawData = await res.json();
 
         // 取得データに不足している項目をランダム補完（サンプル用）
-const enhancedData = rawData.map((item: Partial<SwingData>) => ({
-  ...item,
-  impactAttackAngle: item.impactAttackAngle ?? (Math.random() * 10 - 5),
-  swing_type:
-    item.swing_type ??
-    ["Inside-out Draw Hitter", "Straight Power Hitter", "Straight Athlete", "Outside-in Control", "Inside-out Fade", "Rotation Specialized"][
-      Math.floor(Math.random() * 6)
-    ],
-  club_type:
-    item.club_type ??
-    ["Driver", "Iron", "Wedge", "Putter"][
-      Math.floor(Math.random() * 4)
-    ],
-  success: Math.random() < 0.5 ? true : false, // success フィールドを追加
-  height_category: (item.profileHeight ?? 0) >= 170 ? 0 : 1, // デフォルト値を追加
-}));
+        const enhancedData = rawData.map((item: Partial<SwingData>) => ({
+          ...item,
+          impactAttackAngle: item.impactAttackAngle ?? (Math.random() * 10 - 5),
+          swing_type:
+            item.swing_type ??
+            ["Inside-out Draw Hitter", "Straight Power Hitter", "Straight Athlete", "Outside-in Control", "Inside-out Fade", "Rotation Specialized"][
+              Math.floor(Math.random() * 6)
+            ],
+          club_type:
+            item.club_type ??
+            ["Driver", "Iron", "Wedge", "Putter"][
+              Math.floor(Math.random() * 4)
+            ],
+          success: Math.random() < 0.5 ? true : false, // success フィールドを追加
+          height_category: (item.profileHeight ?? 0) >= 170 ? 0 : 1, // デフォルト値を追加
+        }));
         setData(enhancedData);
-} catch (err: unknown) {
-  const errorMessage = err instanceof Error ? err.message : '不明なエラーが発生しました';
-  setError(errorMessage);
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : '不明なエラーが発生しました';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -85,15 +85,16 @@ export default function Home() {
   const itemsPerPage = 15; // 1ページに表示するアイテム数
 
   // SWING TYPE, CLUB TYPE, SUCCESS, HEIGHT CATEGORY でフィルタリング
-const filteredData = useMemo(() => {
-  return data.filter(item => {
-    const matchSwingType = selectedSwingType ? item.swing_type === selectedSwingType : true;
-    const matchClubType = selectedClubType ? item.club_type === selectedClubType : true;
-    const matchSuccess = selectedSuccess ? (item.success ?? false).toString() === selectedSuccess : true; // デフォルト値を設定
-    const matchHeightCategory = selectedHeightCategory ? (item.height_category ?? 0).toString() === selectedHeightCategory : true; // こちらも同様
-    return matchSwingType && matchClubType && matchSuccess && matchHeightCategory;
-  });
-}, [data, selectedSwingType, selectedClubType, selectedSuccess, selectedHeightCategory]);
+  const filteredData = useMemo(() => {
+    return data.filter(item => {
+      const matchSwingType = selectedSwingType ? item.swing_type === selectedSwingType : true;
+      const matchClubType = selectedClubType ? item.club_type === selectedClubType : true;
+      const matchSuccess = selectedSuccess ? (item.success ?? false).toString() === selectedSuccess : true; // デフォルト値を設定
+      const matchHeightCategory = selectedHeightCategory ? (item.height_category ?? 0).toString() === selectedHeightCategory : true; // こちらも同様
+      return matchSwingType && matchClubType && matchSuccess && matchHeightCategory;
+    });
+  }, [data, selectedSwingType, selectedClubType, selectedSuccess, selectedHeightCategory]);
+  
   // データのページネーション（1ページに15行）
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -217,7 +218,7 @@ const filteredData = useMemo(() => {
       </div>
 
       {/* スイングごとの指標データ */}
-      <table border={1} style={{ width: "100%", marginBottom: "20px", borderCollapse: "collapse" }}>
+      <table style={{ width: "100%", marginBottom: "20px", borderCollapse: "collapse", border: "1px solid black" }}>
         <thead>
           <tr>
             <th>CLUB TYPE</th>
